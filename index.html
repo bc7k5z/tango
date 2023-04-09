@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Document</title>
+    <style>
+        body{
+        font-size: 1.25rem;
+        font-family: "Helvetica Neue",Helvetica,"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #ececec;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+        }
+        .wrap{
+            position: fixed;
+        }
+        p{
+        margin: 0;
+        padding: 0;
+        }
+        .section-sub{
+        margin: 0;
+        padding: 5vw;
+        }
+        #mondaidiv{
+        height: 6rem;
+        width: 90vw;
+        word-wrap: break-word
+        }
+        #id_question{
+        font-size: 3rem;
+        }
+        .button{
+        appearance: none;
+        -webkit-appearance: none;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+        color: #000000;
+        font-size: 1.25rem;
+        font-family: "Helvetica Neue",Helvetica,"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;
+        background-color: #ffffff;
+        border: 0;
+        border-radius: 0;
+        margin: 20px 0;
+        padding: 0;
+        width: 90vw;
+        height: 50px;
+        display:block;
+        width: 100%;
+        transform: scale(1,1);
+        transform-origin: top left;
+        }
+    </style>
+    <script type="text/javascript">
+        /* ピッチインピッチアウトによる拡大縮小を禁止 */
+        document.documentElement.addEventListener('touchstart', function (e) {
+        if (e.touches.length >= 2) {e.preventDefault();}
+        }, {passive: false});
+    </script>
+    <script type="text/javascript">
+        const hyojijikan=300;
+        let seikaipagecolor="#A6D4E6";
+        let fuseikaipagecolor="#E79391";
+        let seikaicolor="#ffffff";
+        let fuseikaicolor="#ffffff";
+        let seikaibgcolor="#66b6d5";
+        let fuseikaibgcolor="#d9534f";
+        //あふれ防止
+        function resize() {
+            document.getElementById("id_question").style.transform="";
+            document.getElementById("id_question").style.transformOrigin="";
+            document.getElementById("id_question").style.width="";
+            document.getElementById("id_question").style.fontSize = 3 + "em";
+            for (let size = 300;document.getElementById("id_question").scrollHeight > document.getElementById("mondaidiv").getBoundingClientRect().height && size/100 > 0.01; size--) {
+                document.getElementById("id_question").style.fontSize = size/100 + "em";
+                //console.log(size/100 + "em");
+            }
+            //console.log(document.getElementById("id_question").style.fontSize.slice(0,-2));
+            if(document.getElementById("id_question").scrollHeight > document.getElementById("mondaidiv").getBoundingClientRect().height && document.getElementById("id_question").style.fontSize.slice(0,-2) > 0.01){
+                //console.log("まだあふれています");
+                document.getElementById("id_question").style.transform="scale(0.8,1)";
+                document.getElementById("id_question").style.transformOrigin="top left";
+                document.getElementById("id_question").style.width="125%";
+            }
+        }
+        function resize0() {
+            document.getElementById("id_Choice0").style.transform="";
+            document.getElementById("id_Choice0").style.transformOrigin="";
+            document.getElementById("id_Choice0").style.webkitTransform="";
+            document.getElementById("id_Choice0").style.webkitTransformOrigin="";
+            document.getElementById("id_Choice0").style.width="";
+            for (let choice0size = 1000;document.getElementById("id_Choice0").scrollWidth*((choice0size/1000)) > document.getElementById("id_Choice0").getBoundingClientRect().width && choice0size/1000 > 0.001; choice0size--) {
+                document.getElementById("id_Choice0").style.transform="scale("+(choice0size/1000)+",1)";
+                document.getElementById("id_Choice0").style.transformOrigin="top left";
+                document.getElementById("id_Choice0").style.webkitTransform="scale("+(choice0size/1000)+",1)";
+                document.getElementById("id_Choice0").style.webkitTransformOrigin="top left";
+                document.getElementById("id_Choice0").style.width=(100/(choice0size/1000))+"%";
+            }
+        }
+        function resize1() {
+            document.getElementById("id_Choice1").style.transform="";
+            document.getElementById("id_Choice1").style.transformOrigin="";
+            document.getElementById("id_Choice1").style.webkitTransform="";
+            document.getElementById("id_Choice1").style.webkitTransformOrigin="";
+            document.getElementById("id_Choice1").style.width="";
+            for (let choice1size = 1000;document.getElementById("id_Choice1").scrollWidth*((choice1size/1000)) > document.getElementById("id_Choice1").getBoundingClientRect().width && choice1size/1000 > 0.001; choice1size--) {
+                document.getElementById("id_Choice1").style.transform="scale("+(choice1size/1000)+",1)";
+                document.getElementById("id_Choice1").style.transformOrigin="top left";
+                document.getElementById("id_Choice1").style.webkitTransform="scale("+(choice1size/1000)+",1)";
+                document.getElementById("id_Choice1").style.webkitTransformOrigin="top left";
+                document.getElementById("id_Choice1").style.width=(100/(choice1size/1000))+"%";
+            }
+        }
+        function resize2() {
+            document.getElementById("id_Choice2").style.transform="";
+            document.getElementById("id_Choice2").style.transformOrigin="";
+            document.getElementById("id_Choice2").style.webkitTransform="";
+            document.getElementById("id_Choice2").style.webkitTransformOrigin="";
+            document.getElementById("id_Choice2").style.width="";
+            for (let choice2size = 1000;document.getElementById("id_Choice2").scrollWidth*((choice2size/1000)) > document.getElementById("id_Choice2").getBoundingClientRect().width && choice2size/1000 > 0.001; choice2size--) {
+                document.getElementById("id_Choice2").style.transform="scale("+(choice2size/1000)+",1)";
+                document.getElementById("id_Choice2").style.transformOrigin="top left";
+                document.getElementById("id_Choice2").style.webkitTransform="scale("+(choice2size/1000)+",1)";
+                document.getElementById("id_Choice2").style.webkitTransformOrigin="top left";
+                document.getElementById("id_Choice2").style.width=(100/(choice2size/1000))+"%";
+            }
+        }
+        function resize3() {
+            document.getElementById("id_Choice3").style.transform="";
+            document.getElementById("id_Choice3").style.transformOrigin="";
+            document.getElementById("id_Choice3").style.webkitTransform="";
+            document.getElementById("id_Choice3").style.webkitTransformOrigin="";
+            document.getElementById("id_Choice3").style.width="";
+            for (let choice3size = 1000;document.getElementById("id_Choice3").scrollWidth*((choice3size/1000)) > document.getElementById("id_Choice3").getBoundingClientRect().width && choice3size/1000 > 0.001; choice3size--) {
+                document.getElementById("id_Choice3").style.transform="scale("+(choice3size/1000)+",1)";
+                document.getElementById("id_Choice3").style.transformOrigin="top left";
+                document.getElementById("id_Choice3").style.webkitTransform="scale("+(choice3size/1000)+",1)";
+                document.getElementById("id_Choice3").style.webkitTransformOrigin="top left";
+                document.getElementById("id_Choice3").style.width=(100/(choice3size/1000))+"%";
+            }
+        }
+        window.addEventListener('resize', () => {
+        resize();
+        resize0();
+        resize1();
+        resize2();
+        resize3();
+        });
+        // 読み込んだデータを1行ずつ格納する配列
+        var allData = [];
+        var sW,sH,s;
+        var now_question = 0;
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+          //alert('JS対応');
+        } else {
+          alert('JS未対応のブラウザです。たぶん動作しません');
+        }
+    
+        loadCSV("./20230409.csv");
+        setTimeout("setQuestion(now_question)", 10);//ms //一瞬間隔がないとダメみたい
+    
+        var id;
+        function setQuestion(number){
+            document.getElementById("id_question").style.transform="";
+            document.getElementById("id_question").style.transformOrigin="";
+            document.getElementById("id_question").style.width="";
+            document.getElementById("id_question").style.fontSize = 3 + "em";
+            //console.log(allData);
+            document.getElementById("id_question").innerHTML=allData[number].Q;
+            document.getElementById("mondaidango").innerHTML=number+1;
+
+            id = Math.random();
+            if(id <= 0.25){
+                document.getElementById("id_Choice0").value=allData[number].A;
+                id = 0;
+            }else if(id <= 0.5){
+                document.getElementById("id_Choice1").value=allData[number].A;
+                id = 1;
+            }else if(id <= 0.75){
+                document.getElementById("id_Choice2").value=allData[number].A;
+                id = 2;
+            }else if(id <= 1){
+                document.getElementById("id_Choice3").value=allData[number].A;
+                id = 3;
+            }
+
+            //Aのid
+            //console.log(id);
+
+            //alldataからallData[number].GでSが含まれているやつを取得
+            var aryCheck = allData.filter(value => {
+                if(value.G === allData[number].G){
+                    return true;
+                }
+            });
+            //console.log("allData[number].Gが含まれているやつ:",aryCheck);
+            //console.log("allData[number].Gが含まれる数:"+aryCheck.length);
+
+            //全てのAの抽出
+            const sentakushi = aryCheck.map(item => item["A"]);
+            //console.log("全てのAの抽出:"+sentakushi);
+
+            //同じ選択肢消す
+            var removals = allData[number].A;
+            animals = sentakushi.filter(function(v){
+             return ! removals.includes(v);
+            });
+            //console.log('同じ選択肢消す:'+animals);
+
+            //ランダム並び替えて3個配列にする
+            const array = animals;
+            const copy = array.slice();
+            const selected = [...Array(3)].map(() => copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
+            //console.log("ランダム並び替えて3個抽出:"+selected);
+
+            //htmlに入れる
+            if (id === 0) {
+                document.getElementById("id_Choice1").value=selected[0];
+                document.getElementById("id_Choice2").value=selected[1];
+                document.getElementById("id_Choice3").value=selected[2];
+            } else if (id === 1) {
+                document.getElementById("id_Choice0").value=selected[0];
+                document.getElementById("id_Choice2").value=selected[1];
+                document.getElementById("id_Choice3").value=selected[2];
+            } else if (id === 2) {
+                document.getElementById("id_Choice0").value=selected[0];
+                document.getElementById("id_Choice1").value=selected[1];
+                document.getElementById("id_Choice3").value=selected[2];
+            }else if (id === 3) {
+                document.getElementById("id_Choice0").value=selected[0];
+                document.getElementById("id_Choice1").value=selected[1];
+                document.getElementById("id_Choice2").value=selected[2];
+            }
+            resize();
+            resize0();
+            resize1();
+            resize2();
+            resize3();
+        }
+    
+        function next_question(){
+            document.body.style.backgroundColor="#ececec";
+            document.getElementById('id_Choice0').style.backgroundColor = "#ffffff";
+            document.getElementById('id_Choice0').style.color = "#000000";
+            document.getElementById('id_Choice1').style.backgroundColor =  "#ffffff";
+            document.getElementById('id_Choice1').style.color = "#000000";
+            document.getElementById('id_Choice2').style.backgroundColor = "#ffffff";
+            document.getElementById('id_Choice2').style.color = "#000000";
+            document.getElementById('id_Choice3').style.backgroundColor = "#ffffff";
+            document.getElementById('id_Choice3').style.color = "#000000";
+
+            //現状ではループさせている
+            if(allData.length-1 > now_question){
+                now_question++;
+            }else{
+                now_question = 0;
+            }
+            setQuestion(now_question);
+        }
+
+        function choice0(){
+            if(id===0){
+                document.body.style.backgroundColor =seikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice0').style.color = seikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===1){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice1').style.color = seikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===2){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice2').style.color = seikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===3){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice3').style.color = seikaicolor;
+            }
+            setTimeout("next_question()", hyojijikan);
+        }
+        function choice1(){
+            if(id===0){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice0').style.color = seikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===1){
+                document.body.style.backgroundColor = seikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice1').style.color = seikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===2){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice2').style.color = seikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===3){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice3').style.color = seikaicolor;
+            }
+            setTimeout("next_question()", hyojijikan);
+        }
+        function choice2(){
+            if(id===0){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice0').style.color = seikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===1){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice1').style.color = seikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===2){
+                document.body.style.backgroundColor = seikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice2').style.color = seikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===3){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice3').style.color = seikaicolor;
+            }
+            setTimeout("next_question()", hyojijikan);
+        }
+        function choice3(){
+            if(id===0){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice0').style.color = seikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===1){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice1').style.color = seikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===2){
+                document.body.style.backgroundColor = fuseikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice2').style.color = seikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice3').style.color = fuseikaicolor;
+            }else if(id===3){
+                document.body.style.backgroundColor = seikaipagecolor;
+                document.getElementById('id_Choice0').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice0').style.color = fuseikaicolor;
+                document.getElementById('id_Choice1').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice1').style.color = fuseikaicolor;
+                document.getElementById('id_Choice2').style.backgroundColor = fuseikaibgcolor;
+                document.getElementById('id_Choice2').style.color = fuseikaicolor;
+                document.getElementById('id_Choice3').style.backgroundColor = seikaibgcolor;
+                document.getElementById('id_Choice3').style.color = seikaicolor;
+            }
+            setTimeout("next_question()", hyojijikan);
+        }
+    
+        function loadCSV(targetFile) {
+                var request = new XMLHttpRequest();
+                request.open("get", targetFile, false);
+                request.send(null);
+                var csvData = request.responseText;
+                var lines = csvData.split("\n");
+                for (var i = 0; i < lines.length; i++) {
+                    var wordSet = lines[i].split(",");
+                    var wordData = {
+                        G: wordSet[0],
+                        Q: wordSet[1],
+                        A: wordSet[2],
+                    };
+                    allData.push(wordData);
+                }
+        }
+    
+    </script>
+</head>
+<body>
+<div class="wrap">
+	<section class="section-sub">
+		<div>
+            <p>Q<span id="mondaidango"></span></p>
+        </div>
+		<div id="mondaidiv">
+            <P id='id_question'>起動中</P>
+        </div>
+        <div>
+            <input type="button" class="button" id="id_Choice0" value="選択肢１" onclick="choice0();">
+            <input type="button" class="button" id="id_Choice1" value="選択肢２" onclick="choice1();">
+            <input type="button" class="button" id="id_Choice2" value="選択肢３" onclick="choice2();">
+            <input type="button" class="button" id="id_Choice3" value="選択肢４" onclick="choice3();">
+        </div>
+	</section>
+	<section class="section-sub">
+        <div>
+  		    <input type="button" class="button" value="次の問題へ" onclick="next_question()" >
+        </div>
+	</section>
+</div>
+</body>
+</html>
